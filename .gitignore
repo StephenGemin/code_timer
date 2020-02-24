@@ -127,8 +127,3 @@ dmypy.json
 # PyCharm .idea folder
 *.idea/*
 .iml
-.idea/workspace.xml
-.idea/codetimer.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
