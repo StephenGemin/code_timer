@@ -1,15 +1,13 @@
 from distutils.core import setup
-import os
 
-curr_dir = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(curr_dir, 'README.md'), encoding='utf-8') as f:
-  long_description = f.read()
+with open('README.md') as f:
+    long_description = f.read()
 
 setup(
   name='code_timer',
   packages=['code_timer'],
   version='v1.0.0',
-  license='MIT',
+  license='MIT License',
   description='Custom timer for your Python coding pleasure',
   long_description=long_description,
   long_description_content_type="text/markdown",

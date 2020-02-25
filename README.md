@@ -27,7 +27,7 @@ You can use `code_timer.Timer` in several different ways:
 
     ```python
     with Timer(name="context manager"):
-       # Do something
+        # Do something
     ```
 
 3. As a **decorator**:
@@ -45,7 +45,7 @@ You can also use the function defined decorator `code_timer.timer`.
     ```python
     @timer
     def your_func():
-       # Do something
+        # Do something
     ```
     
 2. With braces
@@ -53,5 +53,5 @@ You can also use the function defined decorator `code_timer.timer`.
     ```python 
     @timer(name="my_timer")
     def your_func():
-       # Do something
+        # Do something
     ```
