@@ -1,20 +1,24 @@
-from distutils.core import setup
+from setuptools import setup
 
-with open('README.md') as f:
+# read the contents of README file
+from os import path
+current_dir = path.abspath(path.dirname(__file__))
+with open(path.join(current_dir, 'README.md'), encoding='utf-8') as f:
     long_desc = f.read()
 
 setup(
   name='code_timer',
   packages=['code_timer'],
-  version='v1.0.1',
+  version='v1.0.2',
   license='MIT License',
   description='Custom timer for your Python coding pleasure',
   long_description=long_desc,
-  long_description_content_type="text/markdown",
+  long_description_content_type='text/markdown',
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
-  download_url='https://github.com/StephenGemin/code_timer/archive/v1.0.1.tar.gz',
+  download_url='https://github.com/StephenGemin/code_timer'
+               '/archive/v1.0.1.tar.gz',
   keywords=["decorator", "decorators", "code timer", "timing",
             "code timing", "context manager", "profiling"],
   classifiers=[
