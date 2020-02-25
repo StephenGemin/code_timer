@@ -1,10 +1,18 @@
 from distutils.core import setup
+import os
+
+curr_dir = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(curr_dir, 'README.md'), encoding='utf-8') as f:
+  long_description = f.read()
+
 setup(
   name='code_timer',
   packages=['code_timer'],
   version='1.0.0',
   license='MIT',
   description='Custom timer for your Python coding pleasure',
+  long_description=long_description,
+  long_description_content_type="text/markdown",
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
