@@ -12,6 +12,7 @@ setup(
   license='MIT',
   description='Custom timer for your Python coding pleasure',
   long_description=long_description,
+  long_description_content_type="text/markdown",
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
