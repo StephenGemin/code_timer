@@ -9,7 +9,7 @@ with open(path.join(current_dir, 'README.md'), encoding='utf-8') as f:
 setup(
   name='code_timer',
   packages=['code_timer'],
-  version='1.0.2',
+  version='1.0.3',
   license='MIT License',
   description='Custom timer for your Python coding pleasure',
   long_description=long_desc,
