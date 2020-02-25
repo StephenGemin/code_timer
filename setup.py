@@ -6,7 +6,7 @@ with open('README.md') as f:
 setup(
   name='code_timer',
   packages=['code_timer'],
-  version='v1.0.0',
+  version='v1.0.1',
   license='MIT License',
   description='Custom timer for your Python coding pleasure',
   long_description=long_desc,
@@ -14,7 +14,7 @@ setup(
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
-  download_url='https://github.com/StephenGemin/code_timer/archive/v1.0.0.tar.gz',
+  download_url='https://github.com/StephenGemin/code_timer/archive/v1.0.1.tar.gz',
   keywords=["decorator", "decorators", "code timer", "timing",
             "code timing", "context manager", "profiling"],
   classifiers=[
