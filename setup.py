@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 with open('README.md') as f:
-    long_description = f.read()
+    long_desc = f.read()
 
 setup(
   name='code_timer',
@@ -9,7 +9,7 @@ setup(
   version='v1.0.0',
   license='MIT License',
   description='Custom timer for your Python coding pleasure',
-  long_description=long_description,
+  long_description=long_desc,
   long_description_content_type="text/markdown",
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
