@@ -8,7 +8,7 @@ setup(
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
-  download_url='https://github.com/StephenGemin/code_timer/releases/tag/1.0.0',
+  download_url='https://github.com/StephenGemin/code_timer/archive/1.0.0.tar.gz',
   keywords=["decorator", "decorators", "code timer", "timing",
             "code timing", "context manager", "profiling"],
   classifiers=[
