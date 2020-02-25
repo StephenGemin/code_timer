@@ -15,7 +15,7 @@ There are some differences from the RealPython Lesson:
   * I've added a functional decorator.  You have the ability to just use
     @timer whereas the class decorator requires @Timer()
   * code is based on Python 3.7 and does not use data classes
-  * I've forced the use of logging, with the name 'codetimer'
+  * I've forced the use of logging, with the name 'code_timer'
   * I don't think print statements should have any place within production code
   * The log lines are hard coded, rather than being able to pass what you
     want when initializing the Timer class
@@ -41,4 +41,4 @@ There are some differences from the RealPython Lesson:
     def stuff():
         # Do your thing(s) here
 """
-from codetimer.timer import Timer, TimerError, timer
+from code_timer.timer import Timer, TimerError, timer

@@ -53,7 +53,7 @@ class Timer:
         self.timers.setdefault(name, 0)
 
         # logging
-        self.__logger = logging.getLogger("codetimer")
+        self.__logger = logging.getLogger("code_timer")
         self.__logger.setLevel(logging.DEBUG)
         ch = logging.StreamHandler()
         formatter = logging.Formatter('%(asctime)s - %(name)s - '

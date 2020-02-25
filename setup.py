@@ -1,16 +1,16 @@
 from distutils.core import setup
 setup(
-  name='codetimer',
-  packages=['codetimer'],
+  name='code_timer',
+  packages=['code_timer'],
   version='1.0.0',
   license='MIT',
   description='Custom timer for your Python coding pleasure',
   author='Stephen Gemin',
   author_email='s.gemin88@gmail.com',
-  url='https://github.com/StephenGemin/codetimer',
-  download_url='https://github.com/StephenGemin/codetimer/archive/1.0.0.tar.gz',
+  url='https://github.com/StephenGemin/code_timer',
+  download_url='https://github.com/StephenGemin/code_timer/releases/tag/1.0.0',
   keywords=["decorator", "decorators", "code timer", "timing",
-            "code timing", "context manager"],
+            "code timing", "context manager", "profiling"],
   classifiers=[
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
@@ -24,18 +24,4 @@ setup(
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
   ],
-)
-
-settings.update(
-    name='codetimer',
-    packages=['codetimer'],
-    version='1.0.0',
-    description='Custom timer for your Python coding pleasure',
-    author='Stephen Gemin',
-    download_url='https://github.com/StephenGemin/codetimer/archive/1.0.0.tar.gz',
-    author_email='s.gemin88@gmail.com',
-    license='MIT',
-    url='https://github.com/rholder/retrying',
-    classifiers=CLASSIFIERS,
-    keywords="decorator decorators code timer timing context manager",
 )
