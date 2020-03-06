@@ -1,0 +1,17 @@
+atomicwrites
+attrs
+colorama
+importlib-metadata
+more-itertools
+packaging
+pandoc
+pluggy
+ply
+py
+pypandoc
+pyparsing
+pytest==5.3.5
+retrying
+six
+wcwidth
+zipp
