@@ -41,4 +41,4 @@ There are some differences from the RealPython Lesson:
     def stuff():
         # Do your thing(s) here
 """
-from code_timer.timer import Timer, TimerError, timer
+from code_timer.timer import Timer, TimerError, timer, timeit

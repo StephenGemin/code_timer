@@ -46,6 +46,27 @@ def timer(*dargs, **dkwargs):
         return wrap
 
 
+def timeit(*, num_repeats: int = 10000):
+    # support both @timeit and @timeit() as valid syntax
+    def wrap(f):
+        @functools.wraps(f)
+        def wrapped_f(*args, **kwargs):
+            repeats = [0] * num_repeats
+            for i in range(num_repeats):
+                with Timer() as t:
+                    temp = f(*args, **kwargs)
+                repeats[i] = t.elapsed_time
+            repeats.sort()
+            logger.info(f"Best 3 of {num_repeats} "
+                        f"for {f.__name__}: "
+                        f"{repeats[0]:0.4f} ms; "
+                        f"{repeats[1]:0.4f} ms; "
+                        f"{repeats[2]:0.4f} ms; ")
+            return temp
+        return wrapped_f
+    return wrap
+
+
 class Timer:
     timers = dict()
 
@@ -58,6 +79,7 @@ class Timer:
         """
         self.__name = name
         self.__start_time = None
+        self.__elapsed_time = None
 
         # Add new name to dictionary of timers
         self.timers.setdefault(name, 0)
@@ -70,6 +92,10 @@ class Timer:
         :return: dictionary of the timer name and run time for that timer name
         """
         return self.timers
+
+    @property
+    def elapsed_time(self):
+        return self.__elapsed_time
 
     def start(self) -> None:
         """Start timer"""
@@ -89,17 +115,17 @@ class Timer:
             raise TimerError("Timer not started. "
                              "Use .start() to start it.")
         end_time = time.perf_counter()
-        elapsed_time = (end_time - self.__start_time) * 1000  # time in ms
+        self.__elapsed_time = (end_time - self.__start_time) * 1000  # in ms
         self.__start_time = None
 
         if self.__name:
             # Accumulating time for timers with the same name
-            self.timers[self.__name] += elapsed_time
+            self.timers[self.__name] += self.__elapsed_time
             logger.info(f"Using custom timer: {self.__repr__()}")
 
-        return elapsed_time
         logger.debug(f"Timer stop: {end_time}")
         logger.debug(f"Elapsed time: {self.__elapsed_time:0.6f} ms")
+        return self.__elapsed_time
 
     def __call__(self, func):
         """Support using Timer as a decorator"""
