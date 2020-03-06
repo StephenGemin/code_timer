@@ -4,6 +4,16 @@ import time
 import logging
 import functools
 
+# Setup logging
+logger = logging.getLogger("code_timer")
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+formatter = logging.Formatter(
+    fmt="%(asctime)s: %(name)s.%(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S")
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 
 class TimerError(Exception):
     """Custom exception for Timer class."""
@@ -52,15 +62,6 @@ class Timer:
         # Add new name to dictionary of timers
         self.timers.setdefault(name, 0)
 
-        # logging
-        self.__logger = logging.getLogger("code_timer")
-        self.__logger.setLevel(logging.DEBUG)
-        ch = logging.StreamHandler()
-        formatter = logging.Formatter('%(asctime)s - %(name)s - '
-                                      '%(levelname)s - %(message)s')
-        ch.setFormatter(formatter)
-        self.__logger.addHandler(ch)
-
     @property
     def get_timer(self) -> dict:
         """
@@ -76,7 +77,7 @@ class Timer:
             raise TimerError("Timer is running. "
                              "Use .stop() to stop it")
         self.__start_time = time.perf_counter()
-        logging.debug(f"Timer start: {self.__start_time}")
+        logger.debug(f"Timer start: {self.__start_time}")
 
     def stop(self) -> float:
         """
@@ -94,13 +95,11 @@ class Timer:
         if self.__name:
             # Accumulating time for timers with the same name
             self.timers[self.__name] += elapsed_time
-            logging.info(f"Using custom timer: {self.__repr__()}")
-
-        logging.debug(f"Timer stop: {end_time}")
-        logging.info(f"Elapsed time: {elapsed_time:0.6f} ms")
-        logging.debug(f"Clear start time: {self.__start_time}")
+            logger.info(f"Using custom timer: {self.__repr__()}")
 
         return elapsed_time
+        logger.debug(f"Timer stop: {end_time}")
+        logger.debug(f"Elapsed time: {self.__elapsed_time:0.6f} ms")
 
     def __call__(self, func):
         """Support using Timer as a decorator"""
