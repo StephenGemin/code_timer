@@ -3,7 +3,7 @@ import logging
 
 import pytest
 
-import code_timer as ct
+import code_timer.timer as ct
 
 logging.basicConfig(level=logging.DEBUG)
 PACKAGE_LOGGER = "code_timer"
