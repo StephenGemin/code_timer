@@ -1,8 +1,11 @@
 """
 The code for this project is entirely based on a lesson from RealPython.
 
-Lesson link: https://realpython.com/python-timer/#a-python-timer-context-manager
-Repo link: https://github.com/realpython/codetiming
+Lesson link:
+https://realpython.com/python-timer/#a-python-timer-context-manager
+
+Repo link:
+https://github.com/realpython/codetiming
 
 This is a practice attempt to re-create the code and to upload a project to
 PyPi.
@@ -41,4 +44,3 @@ There are some differences from the RealPython Lesson:
     def stuff():
         # Do your thing(s) here
 """
-from code_timer.timer import Timer, TimerError, timer, timeit

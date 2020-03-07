@@ -91,5 +91,3 @@ class TestTimers:
             timer_func()
         assert t.elapsed_time > 0
         assert isinstance(t.elapsed_time, float)
-
-
