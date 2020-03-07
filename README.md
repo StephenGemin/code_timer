@@ -1,6 +1,9 @@
 # code_timer
 Simple python timer to use for single lines of code, or entire functions/classes
 
+[![Latest version](https://img.shields.io/pypi/v/code_timer.svg)](https://pypi.org/project/code_timer/)
+[![Python versions](https://img.shields.io/pypi/pyversions/code_timer.svg)](https://pypi.org/project/code_timer/)
+[![CircleCI](https://circleci.com/gh/StephenGemin/code_timer.svg?style=shield)](https:https://app.circleci.com/pipelines/github/StephenGemin/code_timer)
 
 # New Features!
 
