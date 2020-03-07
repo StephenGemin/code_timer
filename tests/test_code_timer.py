@@ -9,10 +9,9 @@ logging.basicConfig(level=logging.DEBUG)
 PACKAGE_LOGGER = "code_timer"
 DEFAULT_TIMEIT_REPEATS = 10
 DEFAULT_LOOPS = 10
-ELAPSED_TIME_PREFIX = "Elapsed time:"
-RE_TIMER_START = re.compile("Timer start: " + r"0\.\d{6}")
-RE_TIMER_STOP = re.compile("Timer stop: " + r"0\.\d{6}")
-RE_ELAPSED_TIME = re.compile(ELAPSED_TIME_PREFIX + r" 0\.\d{6} ms")
+RE_TIMER_START = re.compile("timer start: " + r"0\.\d{6}")
+RE_TIMER_STOP = re.compile("timer stop: " + r"0\.\d{6}")
+RE_ELAPSED_TIME = re.compile("elapsed time: " + r"0\.\d{6} ms")
 
 
 def timer_func(loop: int = DEFAULT_LOOPS):
@@ -55,11 +54,9 @@ class TestTimers:
         caplog.set_level(logging.DEBUG, logger=PACKAGE_LOGGER)
         with ct.Timer():
             timer_func()
-        assert RE_TIMER_START.match(caplog.records[0].getMessage()), \
-            f"Did not find text {str(RE_TIMER_START)} in first log"
-        assert RE_TIMER_STOP.match(caplog.records[1].getMessage()), \
-            f"Did not find text {str(RE_TIMER_STOP)} in first log"
-        assert RE_ELAPSED_TIME.match(caplog.records[2].getMessage())
+        log3 = caplog.records[2].getMessage().lower()
+        assert RE_ELAPSED_TIME.match(log3), \
+            f"Did not find text {str(RE_ELAPSED_TIME)} in log: {log3}"
 
     def test_timer_error_if_stop_timer_when_not_running(self):
         t = ct.Timer()
