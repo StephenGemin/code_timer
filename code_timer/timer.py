@@ -19,52 +19,53 @@ class TimerError(Exception):
     """Custom exception for Timer class."""
 
 
-def timer(*dargs, **dkwargs):
+def timer(f=None, *, name: str = None):
     """
     Apply Timer as decorator.  Benefit of this is you can use @timer or
     @timer()
 
-    :param dargs: positional arguments passed to Timer object
-    :param dkwargs: keyword arguments passed to Timer object
+    :param f: function being wrapped
+    :param name: custom timer name passed to Timer class
     """
     # support both @timer and @timer() as valid syntax
-    if len(dargs) == 1 and callable(dargs[0]):
-        def wrap_simple(f):
-            @functools.wraps(f)
-            def wrapped_f(*args, **kwargs):
-                with Timer():
-                    return f(*args, **kwargs)
-            return wrapped_f
-        return wrap_simple(dargs[0])
-    else:
-        def wrap(f):
-            @functools.wraps(f)
-            def wrapped_f(*args, **kwargs):
-                with Timer(*dargs, **dkwargs):
-                    return f(*args, **kwargs)
-            return wrapped_f
-        return wrap
+    if f is None:
+        return functools.partial(timer, name=name)
+
+    @functools.wraps(f)
+    def wrapped_f(*args, **kwargs):
+        with Timer(name=name):
+            return f(*args, **kwargs)
+    return wrapped_f
 
 
-def timeit(*, num_repeats: int = 10000):
+def timeit(f=None, *, num_repeats: int = 10000, name: str = None):
+    """
+    Repeat a function a number of times and outputs a log line indicating
+    the three lowest
+
+    :param f: function being wrapped
+    :param name: custom timer name passed to Timer class
+    :param num_repeats: Number of times to repeat the function being timed
+    """
     # support both @timeit and @timeit() as valid syntax
-    def wrap(f):
-        @functools.wraps(f)
-        def wrapped_f(*args, **kwargs):
-            repeats = [0] * num_repeats
-            for i in range(num_repeats):
-                with Timer() as t:
-                    temp = f(*args, **kwargs)
-                repeats[i] = t.elapsed_time
-            repeats.sort()
-            logger.info(f"Best 3 of {num_repeats} "
-                        f"for {f.__name__}: "
-                        f"{repeats[0]:0.4f} ms; "
-                        f"{repeats[1]:0.4f} ms; "
-                        f"{repeats[2]:0.4f} ms; ")
-            return temp
-        return wrapped_f
-    return wrap
+    if f is None:
+        return functools.partial(timeit, num_repeats=num_repeats, name=name)
+
+    @functools.wraps(f)
+    def wrapped_f(*args, **kwargs):
+        repeats = [0] * num_repeats
+        for i in range(num_repeats):
+            with Timer(name=name) as t:
+                temp = f(*args, **kwargs)
+            repeats[i] = t.elapsed_time
+        repeats.sort()
+        logger.info(f"Best 3 of {num_repeats} "
+                    f"for {f.__name__}: "
+                    f"{repeats[0]:0.4f} ms; "
+                    f"{repeats[1]:0.4f} ms; "
+                    f"{repeats[2]:0.4f} ms; ")
+        return temp
+    return wrapped_f
 
 
 class Timer:
@@ -153,4 +154,4 @@ class Timer:
     def __repr__(self) -> str:
         return f"{Timer.__name__} " \
             f"(name='{self.__name}'; " \
-            f"acc_time={self.get_timer[self.__name]:0.4f} ms)"
+            f"acc_time={self.get_timer[self.__name]:0.6f} ms)"
