@@ -9,7 +9,7 @@ with open(path.join(current_dir, 'README.md'), encoding='utf-8') as f:
 setup(
   name='code_timer',
   packages=['code_timer'],
-  version='1.1.1',
+  version='1.1.2',
   license='MIT License',
   description='Custom timer for your Python coding pleasure',
   long_description=long_desc,
@@ -18,7 +18,7 @@ setup(
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
   download_url='https://github.com/StephenGemin/code_timer/'
-               'archive/1.1.1.tar.gz',
+               'archive/1.1.2.tar.gz',
   keywords=["decorator", "decorators", "code timer", "timing",
             "code timing", "context manager", "profiling"],
   classifiers=[
