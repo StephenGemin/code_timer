@@ -7,8 +7,9 @@ import code_timer.timer as ct
 
 logging.basicConfig(level=logging.DEBUG)
 PACKAGE_LOGGER = "code_timer"
-DEFAULT_TIMEIT_REPEATS = 5
-DEFAULT_LOOPS = 10
+
+DEFAULT_TIMEIT_REPEATS = 10
+DEFAULT_LOOPS = 100
 RE_TIMER_START = re.compile("timer start: " + r"0\.\d{6}")
 RE_TIMER_STOP = re.compile("timer stop: " + r"0\.\d{6}")
 RE_ELAPSED_TIME = re.compile("elapsed time: " + r"0\.\d{6} ms")
@@ -57,6 +58,25 @@ def decorated_timeit_no_brackets():
     timer_func()
 
 
+@pytest.fixture(autouse=True)
+def propogate_package_logger():
+    """
+    Adding propogation before each test, then removing in the cleanup for
+    each test.
+
+    The caplog doesn't register any logs if propogate=False.  However,
+    if propogate=True it registers the logs, but there are double logs
+    output to the console. When I tried outputting the logs to a file,
+    only 1 set of logs were output.
+    """
+    logger = logging.getLogger(PACKAGE_LOGGER)
+    logger.propagate = True
+
+    yield
+
+    logger.propagate = False
+
+
 class TestTimerClass:
     def test_timer_class_as_context_manager(self, caplog):
         caplog.set_level(logging.DEBUG, logger=PACKAGE_LOGGER)
@@ -100,18 +120,21 @@ class TestTimerClass:
 
 class TestTimerDec:
     def test_deco_timer_with_brackets(self, caplog):
+        caplog.set_level(logging.DEBUG, logger=PACKAGE_LOGGER)
         decorated_timer_with_brackets()
         log = caplog.records[-1].getMessage().lower()
         assert RE_ELAPSED_TIME.match(log), \
             f"Did not find text {str(RE_ELAPSED_TIME)} in log: {log}"
 
     def test_deco_timer_without_brackets(self, caplog):
+        caplog.set_level(logging.DEBUG, logger=PACKAGE_LOGGER)
         decorated_timer_no_brackets()
         log = caplog.records[-1].getMessage().lower()
         assert RE_ELAPSED_TIME.match(log), \
             f"Did not find text {str(RE_ELAPSED_TIME)} in log: {log}"
 
     def test_deco_timer_name_passed(self, caplog):
+        caplog.set_level(logging.DEBUG, logger=PACKAGE_LOGGER)
         decorated_timer_name_passed()
         log1 = caplog.records[-1].getMessage().lower()
         log2 = caplog.records[1].getMessage().lower()
@@ -151,7 +174,8 @@ class TestTimeitDec:
     def test_deco_timeit_no_brackets(self, caplog):
         caplog.set_level(logging.INFO, logger=PACKAGE_LOGGER)
         decorated_timeit_no_brackets()
-        assert len(caplog.records) == 1, "Contains more than one log output"
+        assert len(caplog.records) == 1, "Does not contain one " \
+                                         "single 'INFO' level log"
         assert caplog.records[0].levelname == "INFO", "Log level is not 'INFO'"
         assert all([rec for rec in caplog.records if rec.levelno <= 20]), \
             "Log record above 'INFO' level "

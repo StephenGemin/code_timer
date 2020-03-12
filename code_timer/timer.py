@@ -6,13 +6,14 @@ import functools
 
 # Setup logging
 logger = logging.getLogger("code_timer")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 formatter = logging.Formatter(
     fmt="%(asctime)s: %(name)s.%(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S")
 ch.setFormatter(formatter)
 logger.addHandler(ch)
+logger.propagate = False
 
 
 class TimerError(Exception):
