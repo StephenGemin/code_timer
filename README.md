@@ -8,6 +8,7 @@ Simple python timer to use for single lines of code, or entire functions/classes
 # New Features!
 
   - Use `code_timer.Timer` as a class, context manager, decorator
+    - Offers the most versatility and flexibility for your needs
   - Use separate `code_timer.timer` decorator
   - Use `code_timer.timeit` decorator to measure the time to run the same function multiple times
     - Useful when comparing the efficiency of one runtime vs another
