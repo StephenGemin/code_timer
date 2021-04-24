@@ -18,7 +18,7 @@ setup(
   author_email='s.gemin88@gmail.com',
   url='https://github.com/StephenGemin/code_timer',
   download_url='https://github.com/StephenGemin/code_timer/'
-               'archive/1.1.4.tar.gz',
+               'archive/refs/tags/1.1.4.tar.gz',
   keywords=["decorator", "decorators", "code timer", "timing",
             "code timing", "context manager", "profiling"],
   classifiers=[
