@@ -20,17 +20,17 @@ jobs:
           command: |
             pytest -v --cov=tests/
 
-  test_pypi_publish:
-    docker:
-      - image: circleci/python:3.8
-    steps:
-      - checkout  # checkout source code to working directory
-      - run:
-          name: test pypi publish
-          command: |  # create whl, install twine and publish to Test PyPI
-            python setup.py sdist bdist_wheel
-            pip install twine
-            twine upload --repository testpypi dist/*
+#  test_pypi_publish:
+#    docker:
+#      - image: circleci/python:3.8
+#    steps:
+#      - checkout  # checkout source code to working directory
+#      - run:
+#          name: test pypi publish
+#          command: |  # create whl, install twine and publish to Test PyPI
+#            python setup.py sdist bdist_wheel
+#            pip install twine
+#            twine upload --repository testpypi dist/*
   pypi_publish:
     docker:
       - image: circleci/python:3.8
@@ -47,13 +47,13 @@ workflows:
   build_test_publish:
     jobs:
       - build_test
-      - test_pypi_publish:
-          requires:
-            - build_test
-          filters:
-            branches:
-              only:
-                - master
+#      - test_pypi_publish:
+#          requires:
+#            - build_test
+#          filters:
+#            branches:
+#              only:
+#                - master
       - pypi_publish:
           requires:
             - build_test
