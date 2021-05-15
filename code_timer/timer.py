@@ -106,7 +106,7 @@ class Timer:
     def start(self) -> None:
         """Start timer"""
         if self.__start_time is not None:
-            raise TimerError("Timer is running. " "Use .stop() to stop it")
+            raise TimerError("Timer is running. Use .stop() to stop it")
         self.__start_time = time.perf_counter()
         logger.debug(f"Timer start: {self.__start_time}")
 
@@ -117,7 +117,7 @@ class Timer:
         :return: elapsed time (aka delta) since starting the timer
         """
         if self.__start_time is None:
-            raise TimerError("Timer not started. " "Use .start() to start it.")
+            raise TimerError("Timer not started. Use .start() to start it.")
         end_time = time.perf_counter()
         self.__elapsed_time = (end_time - self.__start_time) * 1000  # in ms
         self.__start_time = None
