@@ -9,8 +9,8 @@ logger = logging.getLogger("code_timer")
 logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 formatter = logging.Formatter(
-    fmt="%(asctime)s: %(name)s.%(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S")
+    fmt="%(asctime)s: %(name)s.%(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+)
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 logger.propagate = False
@@ -36,6 +36,7 @@ def timer(f=None, *, name: str = None):
     def wrapped_f(*args, **kwargs):
         with Timer(name=name):
             return f(*args, **kwargs)
+
     return wrapped_f
 
 
@@ -60,12 +61,15 @@ def timeit(f=None, *, num_repeats: int = 10000, name: str = None):
                 temp = f(*args, **kwargs)
             repeats[i] = t.elapsed_time
         repeats.sort()
-        logger.info(f"Best 3 of {num_repeats} "
-                    f"for {f.__name__}: "
-                    f"{repeats[0]:0.4f} ms; "
-                    f"{repeats[1]:0.4f} ms; "
-                    f"{repeats[2]:0.4f} ms; ")
+        logger.info(
+            f"Best 3 of {num_repeats} "
+            f"for {f.__name__}: "
+            f"{repeats[0]:0.4f} ms; "
+            f"{repeats[1]:0.4f} ms; "
+            f"{repeats[2]:0.4f} ms; "
+        )
         return temp
+
     return wrapped_f
 
 
@@ -102,8 +106,7 @@ class Timer:
     def start(self) -> None:
         """Start timer"""
         if self.__start_time is not None:
-            raise TimerError("Timer is running. "
-                             "Use .stop() to stop it")
+            raise TimerError("Timer is running. Use .stop() to stop it")
         self.__start_time = time.perf_counter()
         logger.debug(f"Timer start: {self.__start_time}")
 
@@ -114,8 +117,7 @@ class Timer:
         :return: elapsed time (aka delta) since starting the timer
         """
         if self.__start_time is None:
-            raise TimerError("Timer not started. "
-                             "Use .start() to start it.")
+            raise TimerError("Timer not started. Use .start() to start it.")
         end_time = time.perf_counter()
         self.__elapsed_time = (end_time - self.__start_time) * 1000  # in ms
         self.__start_time = None
@@ -131,10 +133,12 @@ class Timer:
 
     def __call__(self, func):
         """Support using Timer as a decorator"""
+
         @functools.wraps(func)
         def wrapper_timer(*args, **kwargs):
             with self:
                 return func(*args, **kwargs)
+
         return wrapper_timer
 
     # Adding ability to use Timer as a context manager
@@ -153,6 +157,8 @@ class Timer:
         self.stop()
 
     def __repr__(self) -> str:
-        return f"{Timer.__name__} " \
-            f"(name='{self.__name}'; " \
+        return (
+            f"{Timer.__name__} "
+            f"(name='{self.__name}'; "
             f"acc_time={self.get_timer[self.__name]:0.6f} ms)"
+        )
