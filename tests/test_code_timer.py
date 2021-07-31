@@ -82,12 +82,6 @@ class TestTimerClass:
         assert t.elapsed_time > 0
         assert isinstance(t.elapsed_time, float)
 
-    def test_clear_all_timers(self):
-        with ct.Timer() as t:
-            timer_func()
-            t.clear()
-        assert t.timers == {t.DEFAULT_TIMER: 0}
-
 
 @ct.timeit(num_repeats=DEFAULT_TIMEIT_REPEATS, name="my_timer")
 def dec_timing():

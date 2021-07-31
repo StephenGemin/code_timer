@@ -126,9 +126,6 @@ class Timer:
         self.__elapsed_time = None
 
         # Add new name to dictionary of timers
-        self._set_timer()
-
-    def _set_timer(self):
         self.timers.setdefault(self.__name, 0)
 
     @property
@@ -165,12 +162,6 @@ class Timer:
         # logger.debug(f"Timer stop: {end_time}")
         # logger.debug(f"Elapsed time: {self.__elapsed_time:0.6f} ms")
         return self.__elapsed_time
-
-    def clear(self, name: str = None) -> None:
-        if name is None:
-            self.timers = {}
-        else:
-            self.timers[name] = 0
 
     def update_name(self, name: str):
         self.timers[name] = self.timers.pop(self.__name)
