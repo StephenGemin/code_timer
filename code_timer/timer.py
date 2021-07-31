@@ -73,8 +73,43 @@ def timeit(f=None, *, num_repeats: int = 10000, name: str = None):
     return wrapped_f
 
 
+def recursive_timer(f):
+    """Timer specifically for recursive calls"""
+    is_evaluating = False
+    timer = Timer()
+
+    # support passing keyword to @recursive_timer(stdout=False) or @recursive_timer()
+    if f is None:
+        return functools.partial(recursive_timer)
+
+    @functools.wraps(f)
+    def wrapped_func(*args, **kwargs):
+        nonlocal is_evaluating, timer
+
+        if is_evaluating:
+            return f(*args, **kwargs)
+
+        timer.start()
+        is_evaluating = True
+        try:
+            value = f(*args, **kwargs)
+        finally:
+            timer.update_name(f"{f.__name__}{args, kwargs}")
+            is_evaluating = False
+        timer.stop()
+        logger.debug(timer)
+        logger.info(
+            f"Elapsed time '{f.__name__}{args, kwargs}': "
+            f"{timer.elapsed_time:0.6f} ms"
+        )
+        return value
+
+    return wrapped_func
+
+
 class Timer:
     timers = dict()
+    DEFAULT_TIMER = "default"
 
     def __init__(self, name: str = None):
         """
@@ -83,21 +118,12 @@ class Timer:
             result with one total time.  The timer name is the dictionary
             key and the accumulated time is the dictionary value.
         """
-        self.__name = name
+        self.__name = name or self.DEFAULT_TIMER
         self.__start_time = None
         self.__elapsed_time = None
 
         # Add new name to dictionary of timers
-        self.timers.setdefault(name, 0)
-
-    @property
-    def get_timer(self) -> dict:
-        """
-        Get timer name and associated time value
-
-        :return: dictionary of the timer name and run time for that timer name
-        """
-        return self.timers
+        self.timers.setdefault(self.__name, 0)
 
     @property
     def elapsed_time(self):
@@ -108,7 +134,7 @@ class Timer:
         if self.__start_time is not None:
             raise TimerError("Timer is running. Use .stop() to stop it")
         self.__start_time = time.perf_counter()
-        logger.debug(f"Timer start: {self.__start_time}")
+        # logger.debug(f"Timer start: {self.__start_time}")
 
     def stop(self) -> float:
         """
@@ -124,12 +150,19 @@ class Timer:
 
         if self.__name:
             # Accumulating time for timers with the same name
-            self.timers[self.__name] += self.__elapsed_time
-            logger.info(f"Using custom timer: {self.__repr__()}")
+            try:
+                self.timers[self.__name] += self.__elapsed_time
+            except KeyError:
+                self.timers[self.__name] = 0
+        logger.debug(repr(self))
 
-        logger.debug(f"Timer stop: {end_time}")
-        logger.debug(f"Elapsed time: {self.__elapsed_time:0.6f} ms")
+        # logger.debug(f"Timer stop: {end_time}")
+        # logger.debug(f"Elapsed time: {self.__elapsed_time:0.6f} ms")
         return self.__elapsed_time
+
+    def update_name(self, name: str):
+        self.timers[name] = self.timers.pop(self.__name)
+        self.__name = name
 
     def __call__(self, func):
         """Support using Timer as a decorator"""
@@ -159,6 +192,7 @@ class Timer:
     def __repr__(self) -> str:
         return (
             f"{Timer.__name__} "
-            f"(name='{self.__name}'; "
-            f"acc_time={self.get_timer[self.__name]:0.6f} ms)"
+            f"(name='{self.__name}', "
+            f"elapsed={self.__elapsed_time:0.6f} ms, "
+            f"acc_time={self.timers.get(self.__name):0.6f} ms)"
         )
