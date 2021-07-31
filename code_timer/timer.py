@@ -74,10 +74,7 @@ def timeit(f=None, *, num_repeats: int = 10000, name: str = None):
 
 
 def recursive_timer(f):
-    """
-    Timer specifically for recursion
-    By default will print out the total elapsed time in microseconds
-    """
+    """Timer specifically for recursive calls"""
     is_evaluating = False
     timer = Timer()
 
